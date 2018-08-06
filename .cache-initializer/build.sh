@@ -9,7 +9,14 @@ cd ${SCRIPT_PATH}
 . ../.common.sh
 . ../env.sh
 
-fetch_and_build ${IGNITE_URL} ${IGNITE_BRANCH} ${IGNITE_TMP_DIR}
+if [ -d ${TMP_DIR} ]; then rm -rf ${TMP_DIR}; fi && \
+mkdir ${TMP_DIR} && \
+cp -r ../tmp/ ${TMP_DIR}
+
+if [ -d ${IGNITE_TMP_DIR} ]; then rm -rf ${IGNITE_TMP_DIR}; fi && \
+mkdir ${IGNITE_TMP_DIR} && \
+cp -rf ${SCRIPT_PATH}/../tmp/* ${IGNITE_TMP_DIR}/
+
 fetch_and_build ${CACHE_INIT_URL} ${CACHE_INIT_BRANCH} ${TMP_DIR}
 
 VERSION=`ls ${TMP_DIR}/target/ignite-test-cache-*-jar-with-dependencies.jar \

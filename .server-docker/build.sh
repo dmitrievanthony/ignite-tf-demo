@@ -5,12 +5,12 @@ TMP_DIR="tmp"
 
 cd ${SCRIPT_PATH}
 
-. ../.common.sh
 . ../env.sh
 
-fetch_and_build ${IGNITE_URL} ${IGNITE_BRANCH} ${TMP_DIR} && \
-VERSION=`ls ${TMP_DIR}/target/bin/apache-ignite-fabric-*-bin.zip \
-    | sed -r 's/.*apache-ignite-fabric-(.*)-bin.zip/\1/'` && \
+if [ -d ${TMP_DIR} ]; then rm -rf ${TMP_DIR}; fi && \
+mkdir ${TMP_DIR} && \
+cp -r ${SCRIPT_PATH}/../tmp/ ${SCRIPT_PATH}/ && \
+VERSION=`ls ${TMP_DIR}/target/bin/apache-ignite-fabric-*-bin.zip | sed -r 's/.*apache-ignite-fabric-(.*)-bin.zip/\1/'` && \
 echo Apache Ignite version: ${VERSION} && \
 unzip ${TMP_DIR}/target/bin/apache-ignite-fabric-${VERSION}-bin.zip -d ${TMP_DIR} && \
 mv ${TMP_DIR}/apache-ignite-fabric-${VERSION}-bin ${TMP_DIR}/apache-ignite-fabric-bin && \
@@ -27,7 +27,7 @@ cd ../.. && \
 wget ${TF_PACK_URL} && \
 
 echo Building Apache Ignite Docker container && \
-sudo docker build -t ignite-with-tf --build-arg TF_PACKAGE_NAME=${TF_PACK_NAME} . 1>/dev/null && \
+sudo docker build -t ignite-with-tf --build-arg TF_PACKAGE_NAME=${TF_PACK_NAME} . && \
 echo Done
 
 cd ${SCRIPT_PATH}

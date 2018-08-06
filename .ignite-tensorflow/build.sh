@@ -5,10 +5,11 @@ TMP_DIR="tmp"
 
 cd ${SCRIPT_PATH}
 
-. ../.common.sh
 . ../env.sh
 
-fetch_and_build ${IGNITE_URL} ${IGNITE_BRANCH} ${TMP_DIR} && \
+if [ -d ${TMP_DIR} ]; then rm -rf ${TMP_DIR}; fi && \
+mkdir ${TMP_DIR} && \
+cp -r ${SCRIPT_PATH}/../tmp/* ${TMP_DIR} && \
 VERSION=`ls ${TMP_DIR}/target/bin/apache-ignite-fabric-*-bin.zip \
     | sed -r 's/.*apache-ignite-fabric-(.*)-bin.zip/\1/'` && \
 echo Apache Ignite version: ${VERSION} && \
