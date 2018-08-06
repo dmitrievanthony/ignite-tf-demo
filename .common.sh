@@ -16,7 +16,7 @@ fetch_and_build() {
     {
         # Build sources.
         echo Building sources \[repo=\"${REPO_URL}\", branch=\"${REPO_BRANCH}\"\] && \
-        mvn clean package -B -q -DskipTests -Prelease,lgpl,tensorflow 1>/dev/null 
+        mvn clean install -B -q -DskipTests -Prelease,lgpl,tensorflow
         cd ..
     } 
 }
